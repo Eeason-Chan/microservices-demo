@@ -1,0 +1,27 @@
+spring:
+  cloud:
+      gateway:
+        globalcors:
+          cors-configurations:
+            '[/**]':
+              allowed-origin-patterns: '*'
+              allowed-headers: '*'
+              allowed-methods: '*'
+        routes:
+            - id: order-route
+              uri: lb://service-order
+              predicates:
+                - Path=/api/order/**
+                - name: Test
+                  args:
+                    param: test
+                    value: 1
+              filters:
+                - RewritePath= /api/order/(?<segment>.*), /$\{segment}
+                - OnceToken= token, jwt
+            - id: product-route
+              uri: lb://service-product
+              predicates:
+                - Path=/api/product/**
+        default-filters:
+          - AddResponseHeader=abc, 123

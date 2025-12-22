@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    openfeign:
+      client:
+        config:
+          default:
+            logger-level: full
+            connect-timeout: 1000
+            read-timeout: 1000
+          productFeignClient:
+            connect-timeout: 6000
+            read-timeout: 6000
+            logger-level: full
+            retryer: feign.retryer.Default

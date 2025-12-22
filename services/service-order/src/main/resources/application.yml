@@ -1,0 +1,29 @@
+server:
+  port: 9000
+spring:
+  profiles:
+    active: prod
+    include: feign
+      - application-${spring.profiles.active}.yml
+  application:
+    name: service-order
+  nacos:
+    server-addr: 127.0.0.1:8848
+    config:
+      namespace: dev
+  config:
+    import:
+      - nacos:service-order.properties?group=order
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+      eager: true
+      web-context-unify: false
+
+logging:
+  level:
+    com/eason/order/feign: debug
+feign:
+  sentinel:
+    enabled: true
